@@ -4,6 +4,7 @@ public class IndustryIdentifier
 {
 	private String type;
 	private String identifier;
+	
 	private String getType() {
 		return type;
 	}

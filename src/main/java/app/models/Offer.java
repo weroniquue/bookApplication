@@ -1,11 +1,10 @@
 package app.models;
 
-import java.util.List;
-
 public class Offer {
+	
 	private int finskyOfferType;
-    private List<Price> listPrice;
-    private List<Price> retailPrice;
+    private ListPrice listPrice;
+    private ListPrice retailPrice;
 	
     public int getFinskyOfferType() {
 		return finskyOfferType;
@@ -13,18 +12,20 @@ public class Offer {
 	public void setFinskyOfferType(int finskyOfferType) {
 		this.finskyOfferType = finskyOfferType;
 	}
-	public List<Price> getListPrice() {
+	public ListPrice getListPrice() {
 		return listPrice;
 	}
-	public void setListPrice(List<Price> listPrice) {
+	public void setListPrice(ListPrice listPrice) {
 		this.listPrice = listPrice;
 	}
-	public List<Price> getRetailPrice() {
+	public ListPrice getRetailPrice() {
 		return retailPrice;
 	}
-	public void setRetailPrice(List<Price> retailPrice) {
+	public void setRetailPrice(ListPrice retailPrice) {
 		this.retailPrice = retailPrice;
 	}
+	
+	
     
     
 }
