@@ -25,6 +25,7 @@ public class JsonReader {
 	public Optional<Book> parseJson() {
 
 		try {
+
 			File file = ResourceUtils.getFile("classpath:books.json");
 
 			// Read File Content
