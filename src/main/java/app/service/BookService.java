@@ -22,6 +22,10 @@ public class BookService {
 								.stream()
 								.map(IndustryIdentifier::getIdentifier)
 								.anyMatch(identifier -> identifier.equals(isbn))
+								&& book.getVolumeInfo().getIndustryIdentifiers()
+										.stream()
+										.map(IndustryIdentifier::getType)
+										.anyMatch(type -> type.equals("ISBN_13"))
 				).findFirst();
 	}
 
@@ -39,23 +43,6 @@ public class BookService {
 				()-> getByIsbn(books, isbn),
 				() ->getById(books,isbn)
 		);
-
-		/*return Optional.of(
-				books.getItems()
-				.stream()
-				.filter( (book) -> book.getId().equals(isnb))
-				.findFirst()
-				.orElse(
-					books.getItems()
-					.stream()
-					.filter( book -> 
-							book.getVolumeInfo().getIndustryIdentifiers()
-							.stream()
-							.map(IndustryIdentifier::getIdentifier)
-							.anyMatch(identifier -> identifier.equals(isnb))
-					)
-					.findFirst().get()
-				));*/
 	}
 	
 
