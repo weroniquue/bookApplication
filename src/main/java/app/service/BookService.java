@@ -19,7 +19,7 @@ public class BookService {
 				books.getItems()
 				.stream()
 				.filter( (book) -> book.getId().equals(isnb))
-				.findAny()
+				.findFirst()
 				.orElse(
 					books.getItems()
 					.stream()
