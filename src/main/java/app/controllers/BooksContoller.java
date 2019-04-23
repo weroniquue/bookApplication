@@ -13,6 +13,9 @@ import app.service.BookService;
 import app.utils.BookResponseMapper;
 import app.utils.JsonReader;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
 public class BooksContoller {
 	
@@ -25,15 +28,24 @@ public class BooksContoller {
     }
 	
 	
-	@RequestMapping("/")
+	@RequestMapping("/isbn")
 	public BookResponse getBookByIsbn(@RequestParam(value = "isbn") String isbn) {
 		Item book = bookService
 				.getBookByIsbn(isbn)
 				.orElseThrow(() -> new ResourceNotFoundException("Book", "isbn", isbn));
-		
-		return BookResponseMapper.mapper(isbn, book);
-		
-		
+		return BookResponseMapper.mapper(book);
 	}
+
+	@RequestMapping("/category")
+	public List<BookResponse> getBooksByCategory(@RequestParam(value = "category") String category) {
+
+		return bookService.getBooksByCategory(category)
+				.stream()
+				.map(obj -> BookResponseMapper.mapper(obj))
+				.collect(Collectors.toList());
+
+	}
+
+
 
 }

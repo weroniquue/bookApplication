@@ -7,31 +7,30 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.util.Optional;
-
 import org.springframework.util.ResourceUtils;
-
 import com.google.gson.Gson;
-
 import app.models.Book;
 
 public class JsonReader {
 
-	private Gson gson;
+	/*private Gson gson;
 
 	public JsonReader() {
 		gson = new Gson();
-	}
+	}*/
 
-	public Optional<Book> parseJson() {
+	public static Optional<Book> parseJson() {
 
 		try {
+
+			Gson gson = new Gson();
 
 			File file = ResourceUtils.getFile("classpath:books.json");
 
 			// Read File Content
 			String content = new String(Files.readAllBytes(file.toPath()));
 
-			Optional<Book> book = Optional.of(this.gson.fromJson(content, Book.class));
+			Optional<Book> book = Optional.of(gson.fromJson(content, Book.class));
 			
 			return book;
 
