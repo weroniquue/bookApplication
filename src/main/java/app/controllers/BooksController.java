@@ -2,6 +2,7 @@ package app.controllers;
 
 import app.payloads.AuthorRatingResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,7 +16,10 @@ import app.utils.BookResponseMapper;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
+@CrossOrigin
 @RestController
+@RequestMapping("/")
 public class BooksController {
 	
 	@Autowired
@@ -43,6 +47,11 @@ public class BooksController {
 				.collect(Collectors.toList());
 
 	}
+
+    @RequestMapping("/availableCategory")
+	public List<String> availableCategory(){
+	    return bookService.availableCategory();
+    }
 
 	@RequestMapping("/rating")
 	public List<AuthorRatingResponse> getRating(){

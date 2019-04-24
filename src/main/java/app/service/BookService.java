@@ -2,8 +2,6 @@ package app.service;
 
 import java.util.*;
 import java.util.stream.Collectors;
-
-import app.exceptions.ResourceNotFoundException;
 import app.models.*;
 import app.payloads.AuthorRatingResponse;
 import app.utils.AppConst;
@@ -75,6 +73,25 @@ public class BookService {
         .collect(Collectors.toList());
     }
 
+
+    public List<String> availableCategory(){
+        Book books = getAllBooks();
+
+        List<String> categories = books.getItems()
+                .stream()
+                .filter(book -> Objects.nonNull(book.getVolumeInfo().getCategories()))
+                .map(Item::getVolumeInfo)
+                .map(VolumeInfo::getCategories)
+                .flatMap(Collection::stream)
+                .distinct()
+                .collect(Collectors.toList());
+        return categories;
+//                .map(Item::getVolumeInfo)
+//                .map(VolumeInfo::getAuthors)
+//                .flatMap(Collection::stream)
+//                .distinct()
+//                .collect(Collectors.toList());
+    }
 
 
     public List<AuthorRatingResponse> getRating(){
