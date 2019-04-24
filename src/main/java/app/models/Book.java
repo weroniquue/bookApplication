@@ -5,8 +5,13 @@ import java.util.List;
 public class Book {
 	
 	private String requestedUrl;
-	public List<Item> items;
-	
+	private List<Item> items;
+
+	public Book(String requestedUrl,List<Item> items) {
+		this.requestedUrl = requestedUrl;
+		this.items = items;
+	}
+
 	public String getRequestedUrl() {
 		return requestedUrl;
 	}

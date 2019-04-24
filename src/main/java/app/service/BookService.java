@@ -8,12 +8,26 @@ import app.models.*;
 import app.payloads.AuthorRatingResponse;
 import app.utils.AppConst;
 import app.utils.Optionals;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import app.utils.JsonReader;
 
 
 @Service
 public class BookService {
+
+    @Value("${jsonPath}")
+    public String path;
+
+    @Value("${api.url}")
+    private String apiUrl;
+
+    @Value("${fromUrl}")
+    private boolean fromUrl;
+
+    public Book getAllBooks(){
+        return !fromUrl ? JsonReader.parseJson(this.path).get() : JsonReader.parseJsonFromUrl(this.apiUrl).get();
+    }
 
     public Optional<Item> getByIsbn(Book books, String isbn) {
         return books.getItems()
@@ -38,7 +52,8 @@ public class BookService {
     }
 
     public Optional<Item> getBookByIsbn(String isbn) {
-        Book books = JsonReader.parseJson().orElseThrow(() ->new ResourceNotFoundException("File with data ","books.json" , "" ));
+
+        Book books = getAllBooks();
 
         return Optionals.or(
                 () -> getByIsbn(books, isbn),
@@ -47,7 +62,7 @@ public class BookService {
     }
 
     public List<Item> getBooksByCategory(String category) {
-        Book books = JsonReader.parseJson().orElseThrow(() ->new ResourceNotFoundException("File with data ","books.json" , "" ));
+        Book books = getAllBooks();
 
         return books.getItems()
                 .stream()
@@ -63,7 +78,8 @@ public class BookService {
 
 
     public List<AuthorRatingResponse> getRating(){
-        Book books = JsonReader.parseJson().orElseThrow(() ->new ResourceNotFoundException("File with data ","books.json" , "" ));
+
+        Book books = getAllBooks();
 
         List<String> authors = books.getItems()
                 .stream()
@@ -93,7 +109,5 @@ public class BookService {
                 .filter(x->x.getAverageRating() > 0)
                 .collect(Collectors.toList());
     }
-
-
 
 }
