@@ -1,5 +1,6 @@
 package app.controllers;
 
+import app.payloads.AuthorRatingResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,10 +22,10 @@ public class BooksContoller {
 	
 	@Autowired
 	private BookService bookService;
-	
+
 	@RequestMapping("/all")
     public Book getAllBooks() {
-		return new JsonReader().parseJson().get();		
+		return new JsonReader().parseJson().get();
     }
 	
 	
@@ -41,9 +42,14 @@ public class BooksContoller {
 
 		return bookService.getBooksByCategory(category)
 				.stream()
-				.map(obj -> BookResponseMapper.mapper(obj))
+				.map(BookResponseMapper::mapper)
 				.collect(Collectors.toList());
 
+	}
+
+	@RequestMapping("/rating")
+	public List<AuthorRatingResponse> getRating(){
+		return bookService.getRating();
 	}
 
 

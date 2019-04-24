@@ -1,9 +1,6 @@
 package app.utils;
 
 import java.util.Date;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 import app.models.IndustryIdentifier;
 import app.models.Item;
 import app.payloads.BookResponse;
@@ -21,7 +18,7 @@ public class BookResponseMapper {
 
         String isbn = book.getVolumeInfo().getIndustryIdentifiers()
                 .stream()
-                .filter(indentifier -> indentifier.getType().equals(AppConst.DEFAULT_TYPE_ISBN))
+                .filter(identifier -> identifier.getType().equals(AppConst.DEFAULT_TYPE_ISBN))
                 .findFirst()
                 .map(IndustryIdentifier::getIdentifier)
                 .orElse(book.getId());
@@ -44,6 +41,5 @@ public class BookResponseMapper {
         return response;
 
     }
-
 
 }

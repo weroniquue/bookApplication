@@ -1,18 +1,16 @@
 package app.service;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
+import app.exceptions.ResourceNotFoundException;
+import app.models.*;
+import app.payloads.AuthorRatingResponse;
 import app.utils.AppConst;
 import app.utils.Optionals;
 import org.springframework.stereotype.Service;
-
-import app.models.Book;
-import app.models.IndustryIdentifier;
-import app.models.Item;
 import app.utils.JsonReader;
+
 
 @Service
 public class BookService {
@@ -28,7 +26,7 @@ public class BookService {
                                 && book.getVolumeInfo().getIndustryIdentifiers()
                                 .stream()
                                 .map(IndustryIdentifier::getType)
-                                .anyMatch(type -> type.equals(AppConst.DEFAULT_TYPE_ISBN))
+                                .anyMatch(AppConst.DEFAULT_TYPE_ISBN::equals)
                 ).findFirst();
     }
 
@@ -40,7 +38,7 @@ public class BookService {
     }
 
     public Optional<Item> getBookByIsbn(String isbn) {
-        Book books = JsonReader.parseJson().get();
+        Book books = JsonReader.parseJson().orElseThrow(() ->new ResourceNotFoundException("File with data ","books.json" , "" ));
 
         return Optionals.or(
                 () -> getByIsbn(books, isbn),
@@ -49,7 +47,7 @@ public class BookService {
     }
 
     public List<Item> getBooksByCategory(String category) {
-        Book books = JsonReader.parseJson().get();
+        Book books = JsonReader.parseJson().orElseThrow(() ->new ResourceNotFoundException("File with data ","books.json" , "" ));
 
         return books.getItems()
                 .stream()
@@ -60,8 +58,42 @@ public class BookService {
                         .anyMatch(cat -> cat.toLowerCase().equals(category.toLowerCase()))
                 )
         .collect(Collectors.toList());
-
     }
+
+
+
+    public List<AuthorRatingResponse> getRating(){
+        Book books = JsonReader.parseJson().orElseThrow(() ->new ResourceNotFoundException("File with data ","books.json" , "" ));
+
+        List<String> authors = books.getItems()
+                .stream()
+                .filter(book -> Objects.nonNull(book.getVolumeInfo().getAuthors()))
+                .map(Item::getVolumeInfo)
+                .map(VolumeInfo::getAuthors)
+                .flatMap(Collection::stream)
+                .distinct()
+                .collect(Collectors.toList());
+
+
+        List<AuthorRatingResponse> responses = authors.stream()
+                .map(author->{
+                    OptionalDouble average = books.getItems()
+                    .stream()
+                    .filter(book -> Objects.nonNull(book.getVolumeInfo().getAuthors()))
+                    .filter(book -> Objects.nonNull(book.getVolumeInfo().getAverageRating()))
+                    .filter(book -> book.getVolumeInfo().getAuthors().contains(author))
+                    .map(Item::getVolumeInfo)
+                    .map(VolumeInfo::getAverageRating)
+                    .mapToDouble(a->a)
+                    .average();
+                return average.isPresent() ?  new AuthorRatingResponse(author, average.getAsDouble()) : new AuthorRatingResponse(author,0.0);
+         }).collect(Collectors.toList());
+
+        return responses.stream()
+                .filter(x->x.getAverageRating() > 0)
+                .collect(Collectors.toList());
+    }
+
 
 
 }
