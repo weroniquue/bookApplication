@@ -17,7 +17,7 @@ public class BookService {
     @Value("${jsonPath}")
     public String path;
 
-    @Value("api.url")
+    @Value("${apiurl}")
     private String apiUrl;
 
     @Value("${fromUrl}")
