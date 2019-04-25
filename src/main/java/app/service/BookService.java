@@ -17,7 +17,7 @@ public class BookService {
     @Value("${jsonPath}")
     public String path;
 
-    @Value("${api.url}")
+    @Value("api.url")
     private String apiUrl;
 
     @Value("${fromUrl}")
@@ -86,11 +86,6 @@ public class BookService {
                 .distinct()
                 .collect(Collectors.toList());
         return categories;
-//                .map(Item::getVolumeInfo)
-//                .map(VolumeInfo::getAuthors)
-//                .flatMap(Collection::stream)
-//                .distinct()
-//                .collect(Collectors.toList());
     }
 
 
@@ -127,4 +122,27 @@ public class BookService {
                 .collect(Collectors.toList());
     }
 
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public String getApiUrl() {
+        return apiUrl;
+    }
+
+    public void setApiUrl(String apiUrl) {
+        this.apiUrl = apiUrl;
+    }
+
+    public boolean isFromUrl() {
+        return fromUrl;
+    }
+
+    public void setFromUrl(boolean fromUrl) {
+        this.fromUrl = fromUrl;
+    }
 }

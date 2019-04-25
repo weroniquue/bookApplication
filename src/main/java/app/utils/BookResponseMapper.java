@@ -1,5 +1,7 @@
 package app.utils;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import app.models.IndustryIdentifier;
 import app.models.Item;
@@ -7,9 +9,24 @@ import app.payloads.BookResponse;
 
 public class BookResponseMapper {
 
-    public static Date convertDate(String date) {
+    public static String convertDate(String date) {
 
-        return null;
+        SimpleDateFormat formatFull = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat formatYear = new SimpleDateFormat("yyyy");
+        try {
+
+            if(date.length() == 4 ){
+                Date formatedDate = formatYear.parse(date);
+                return Long.toString(formatedDate.getTime());
+            }else{
+                Date formatedDate = formatFull.parse(date);
+                return Long.toString(formatedDate.getTime());
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
     }
 
     public static BookResponse mapper(Item book) {
@@ -28,7 +45,7 @@ public class BookResponseMapper {
         response.setTitle(book.getVolumeInfo().getTitle());
         response.setSubtitle(book.getVolumeInfo().getSubtitle());
         response.setSubtitle(book.getVolumeInfo().getPublisher());
-        response.setPublishedDate(book.getVolumeInfo().getPublishedDate()); //do milisekund dwa formaty
+        response.setPublishedDate(convertDate(book.getVolumeInfo().getPublishedDate()));
         response.setDescription(book.getVolumeInfo().getDescription());
         response.setPageCount(book.getVolumeInfo().getPageCount());
         response.setThumbnailUrl(book.getVolumeInfo().getImageLinks().getThumbnail());
