@@ -1,5 +1,5 @@
-const endpoint = "http://localhost:8080/bookApplication/all",
-    availableCategory = "http://localhost:8080/bookApplication/availableCategory";
+const endpoint = "http://localhost:8080/all",
+    availableCategory = "http://localhost:8080/availableCategory";
 var books;
 
 const contentContainer = document.getElementsByClassName("content-container")[0];
