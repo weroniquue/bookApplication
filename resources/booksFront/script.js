@@ -1,15 +1,15 @@
-const endpoint = 'http://localhost:8080/bookApplication/all',
-    availableCategory = 'http://localhost:8080/bookApplication/availableCategory';
+const endpoint = "http://localhost:8080/bookApplication/all",
+    availableCategory = "http://localhost:8080/bookApplication/availableCategory";
 var books;
 
-const contentContainer = document.getElementsByClassName('content-container')[0];
+const contentContainer = document.getElementsByClassName("content-container")[0];
 
 function createBooksElement(booksArray){
 
     var html = "";
-    page = document.createElement('div');
+    var page = document.createElement("div");
 
-    if (booksArray.totalItems == 0) {
+    if (booksArray.totalItems === 0) {
         html = `<h1>No elements.</h1>`;
         page.className += "error";
         document.getElementById("search").value = "";
@@ -86,7 +86,7 @@ function getAvailableCategory(method, url){
                 var categories = JSON.parse(httpRequest.response);
 
                 var select = document.getElementById("categorySelect");
-                for(index in categories) {
+                for(var index in categories) {
                     select.options[select.options.length] = new Option(categories[index], categories[index]);
                 }
 
@@ -94,7 +94,7 @@ function getAvailableCategory(method, url){
         };
 
         httpRequest .onerror = function () {
-            error = document.createElement('h3');
+            var error = document.createElement('h3');
             error.className += "error";
             error.innerText = 'The request failed!';
             contentContainer.appendChild(error);
@@ -128,10 +128,11 @@ $('#categorySelect').change(function() {
     var booksByCategory = [];
 
     if($(this).val() !== "all"){
-        books.items.forEach( book =>{
+        books.items.forEach( book => {
             if( null != book.volumeInfo.categories){
-                if($.inArray($(this).val(), book.volumeInfo.categories) === 0)
+                if($.inArray($(this).val(), book.volumeInfo.categories) === 0){
                     booksByCategory.push(book);
+                }
             }
         });
     }else{
