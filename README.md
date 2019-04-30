@@ -6,24 +6,25 @@ Simple Spring app which provide several endpoints with relevant information base
 <h4>Building</h4>
 To build the project use following command:
 
-```
+```maven
 mvn clean package install
 ```
 
 <h4>Running</h4>
 To runn the project use following command:
 
-```
+```maven
 mvn jetty:run
 ```
 
 Default: read from file books.json. <br>
 If you want to change data source for example fetch data from google API you can use following command:
-```
+```maven
 mvn jetty:run -DfromUrl=true -Dapiurl=<LINK>
 ```
+
 Also it is possible to change json file. Put this file in /src/main/resources and use command:
-```
+```maven
 mvn jetty:run -DfromUrl=false -Djsonpath=<FILE NAME>
 ```
 Dashboar was written in pure JS so page to run you can find in bookApplication/resources/booksFront/index.html
