@@ -6,14 +6,6 @@ import app.service.BookService;
 import app.utils.BookResponseMapper;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.test.context.TestPropertySource;
 
 import java.util.stream.Collectors;
 
@@ -31,10 +23,6 @@ public class BooksControllerTest {
         mockService.setPath("books.json");
     }
 
-    @Test
-    public void getAllBooks() {
-
-    }
 
     @Test
     public void getBookByIsbnTimeTest() {
